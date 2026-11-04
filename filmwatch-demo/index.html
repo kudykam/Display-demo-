@@ -1,0 +1,459 @@
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#08121d"><title>FilmWatch · Filmy a seriály</title><style>:root{color-scheme:dark;font:16px system-ui,sans-serif;background:#08121d;color:#edf4f9;--accent:#71dce6;--muted:#a0b3c3;--line:#ffffff1f}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;min-height:44px;padding:9px 15px;background:#132738;color:inherit;border:1px solid var(--line);border-radius:10px}button:hover{border-color:var(--accent)}button[aria-pressed=true],.primary{background:#16434c;border-color:#56a7ad;color:#b6f7fc}button:disabled{opacity:.55;cursor:default}header{display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:14px 22px;background:#0c1926;border-bottom:1px solid var(--line)}.brand{font-size:23px;font-weight:750}.brand span{color:var(--accent)}.brand small{display:block;color:#e7ba72;font-size:11px}nav{display:flex;gap:8px;flex:1}main{max-width:1500px;margin:auto;padding:20px}.heading{display:flex;justify-content:space-between;align-items:center;gap:20px}.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--accent);margin:0}h1{font-size:32px;margin:5px 0}h2{font-size:24px}.heading p:not(.eyebrow){color:var(--muted);margin-top:8px}.limit{color:var(--accent);white-space:nowrap}.notice{border:1px solid var(--line);border-left:3px solid #70cfd8;padding:12px 15px;background:#0f202d;font-size:13px;margin:12px 0;color:#c6d5de}.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0}.search{display:flex;align-items:center;gap:10px;flex:1;min-width:220px}input,select{padding:10px;background:#101f2d;color:inherit;border:1px solid var(--line);border-radius:9px;min-height:44px}input{width:100%}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}.card{padding:0;text-align:left;overflow:hidden;background:#102130;border:1px solid var(--line);border-radius:14px;position:relative}.poster{aspect-ratio:2/3;height:auto;background:linear-gradient(135deg,#27475b,#0e1a29);display:flex;justify-content:center;align-items:center;position:relative;overflow:hidden}.poster img{height:100%;width:100%;object-fit:contain}.poster>span{font-size:52px;color:#88c2cc}.badge{position:absolute;left:10px;bottom:10px;padding:5px 9px;background:#07141de8;border-radius:7px;color:#e7f6fc;font-size:11px}.card-body{padding:13px}.card h2{font-size:18px;margin:0 0 8px}.meta{color:var(--muted);font-size:12px}.quality{font-size:12px;line-height:1.6;color:var(--accent);margin:10px 0 0}.pending{color:#e5b777}.trakt-mark{position:absolute;right:10px;top:10px;border-radius:6px;background:#bd3342;padding:4px 6px;font-size:10px}.empty{padding:45px;text-align:center;color:var(--muted);background:#0c1926;border-radius:12px}footer{font-size:11px;color:#8ba4b5;border-top:1px solid var(--line);margin-top:24px;padding-top:14px;display:flex;justify-content:space-between;gap:15px}dialog{background:#0e202e;color:inherit;border:1px solid #345366;border-radius:16px;max-width:700px;width:calc(100% - 28px);max-height:90vh;overflow:auto;padding:26px}dialog::backdrop{background:#02060bc9}.close{float:right}.detail-poster{height:180px;float:left;margin:0 22px 15px 0;border-radius:10px}.detail-copy{line-height:1.65}.detail-facts{clear:both;border-top:1px solid var(--line);padding-top:12px}.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.service{padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:15px}.service b{color:var(--accent)}#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#235264;color:white;border:1px solid #6cb5c8;border-radius:10px;padding:12px 20px;max-width:90vw;display:none;z-index:10}#toast.show{display:block}[hidden]{display:none!important}@media(max-width:650px){header{padding:12px;gap:10px}nav{order:3;flex-basis:100%;overflow:auto}nav button{padding:8px 12px}main{padding:14px}.heading{align-items:flex-start;flex-direction:column;gap:0}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.poster{height:auto}.card-body{padding:10px}.card h2{font-size:16px}footer{display:block}.detail-poster{height:130px}#trakt-toggle{display:flex;width:100%}#trakt-toggle button{flex:1}}@media(min-width:900px) and (max-height:700px){.heading h1{font-size:27px}.heading p:not(.eyebrow){font-size:13px}.poster{height:auto}}
+
+.episode-row{display:flex;flex-direction:column;width:100%;text-align:left;margin-top:10px;gap:5px}.episode-row .quality{margin:0}
+
+.ratings{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#e7ca81;margin:8px 0}.ratings a{color:inherit}.ratings span+span{color:var(--muted)}
+
+#settings>label{display:flex;align-items:center;gap:12px;margin:14px 0}#settings input[type=checkbox]{width:auto;min-height:auto}#catalog-year{max-width:110px}
+
+.rating-badge{display:flex;flex-direction:column;gap:2px;padding:9px 12px;border:1px solid #f4d98766;box-shadow:0 2px 12px #0008;color:#ffe4a0;background:#07141df2}.rating-badge b{font-size:20px;line-height:1.2}.rating-badge small{font-size:11px;letter-spacing:.04em;color:#fff1ce}.card-year{margin:0 0 8px}.watched-mark{position:absolute;right:9px;top:42px;bottom:auto;padding:5px 7px;border-radius:6px;background:#14503df2;color:#c6ffdf;font-size:11px}@media(max-width:650px){.rating-badge{left:7px;bottom:7px;padding:7px 9px}.rating-badge b{font-size:17px}.watched-mark{right:5px;bottom:auto;top:39px;font-size:10px}}
+
+header{padding:8px 16px;gap:12px}header nav{flex:0 1 auto}header nav button,header>#refresh{padding:7px 12px;min-height:38px}.brand{font-size:21px}.header-status{display:flex;align-items:center;gap:12px;margin-left:auto;min-width:0}#limits{font-size:12px;color:var(--muted);white-space:nowrap}.status-pill{position:relative;font-size:12px;min-height:34px;padding:6px 10px;max-width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.status-pill.has-error{color:#ffd094;border-color:#bd834a}.status-pill.busy #status-text:before{content:'●';color:var(--accent);margin-right:6px}.status-pill progress{position:absolute;left:0;bottom:0;width:100%;height:3px;accent-color:var(--accent);border:0}.toolbar{margin:0 0 12px;gap:8px}.toolbar input,.toolbar select{min-height:38px;padding:7px 10px;font-size:14px}main{padding:14px 18px}.rating-badge{left:auto;bottom:auto;right:9px;top:9px;padding:7px 10px}.rating-badge b{font-size:19px}.trakt-mark{right:auto;left:9px;top:9px}.watched-mark{top:69px}#monitor-details p{line-height:1.6}#monitor-details h2{font-size:22px}@media(max-width:650px){header{padding:8px 10px;gap:7px}header nav{order:3;flex-basis:100%;gap:5px}header nav button{min-height:36px;font-size:13px;padding:6px 10px}.header-status{gap:6px}#limits{display:none}.status-pill{max-width:145px;font-size:11px;min-height:32px}header>#refresh{font-size:12px;min-height:32px;padding:5px 8px}main{padding:10px}.toolbar .search{min-width:150px}.rating-badge{left:auto;bottom:auto;right:6px;top:6px;padding:6px 8px}.rating-badge b{font-size:17px}.rating-badge small{font-size:10px}.trakt-mark{left:6px;top:6px}.watched-mark{top:62px}}
+
+#detail.movie-detail{max-width:860px;padding:0}.detail-header{position:sticky;top:0;z-index:1;display:grid;grid-template-columns:1fr auto;gap:10px 16px;padding:19px 22px;background:#102330;border-bottom:1px solid var(--line)}.detail-header h2{font-size:27px;line-height:1.2;margin:5px 0 8px}.detail-header p{margin:0}.detail-header .close{float:none;align-self:start;min-height:32px;width:32px;padding:1px;font-size:23px}.detail-quick-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}.detail-quick-actions button{min-height:31px;font-size:12px;padding:5px 10px;border-radius:7px}.detail-content{padding:22px}.detail-hero{display:grid;grid-template-columns:165px 1fr;gap:22px;align-items:start}.detail-cover{width:100%;height:auto;border-radius:10px;object-fit:contain}.detail-overview{min-width:0}.detail-score{display:inline-flex;align-items:center;gap:10px;color:#ffe4a0}.detail-score b{font-size:26px}.detail-score span{font-size:12px;color:var(--muted)}.detail-quality{padding:13px 15px;border:1px solid #58a7b244;border-radius:10px;background:#122c38}.detail-quality p{margin:7px 0 0;font-size:13px;line-height:1.7;color:var(--accent)}.detail-section{margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}.detail-section h3{font-size:17px;margin:0 0 12px}.cast-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.cast-person{min-width:0;display:flex;gap:9px;align-items:center}.cast-person img{width:44px;height:62px;border-radius:6px;object-fit:cover;flex:none}.cast-person b{font-size:12px;display:block}.cast-person span{font-size:11px;color:var(--muted);display:block;margin-top:4px}.section-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}.section-heading h3{margin:0}.external-link{font-size:12px;color:var(--accent)}.review-list{display:grid;gap:10px}.review-list blockquote{margin:0;padding:12px;border-left:2px solid #568e9b;background:#112937;font-size:13px}.review-list p{margin:0 0 7px}.review-list cite{color:var(--muted);font-size:11px}.detail-diagnostics{margin-top:22px;border-top:1px solid var(--line);padding-top:15px;color:var(--muted);font-size:12px}.detail-diagnostics summary{cursor:pointer;color:#d4e3ed;font-size:13px}.detail-diagnostics .detail-actions button{min-height:32px;font-size:12px;padding:5px 9px}@media(max-width:650px){.detail-header{padding:15px;gap:9px}.detail-header h2{font-size:22px}.detail-content{padding:15px}.detail-hero{grid-template-columns:95px 1fr;gap:13px}.detail-copy{font-size:13px}.detail-score b{font-size:22px}.cast-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-quality{grid-column:1/-1;padding:10px}.detail-header .meta{font-size:11px}.section-heading{align-items:baseline}}
+
+.trailer-player{position:relative;aspect-ratio:16/9;min-height:200px;background:#000;border-radius:10px;overflow:hidden;margin-top:12px}.trailer-player iframe{position:absolute;width:100%;height:100%;inset:0;border:0}.trailer-player:fullscreen{aspect-ratio:auto;border-radius:0;width:100vw;height:100vh}.section-heading #trailer-fullscreen{font-size:12px;min-height:31px;padding:5px 9px}
+
+.detail-hero.no-poster{grid-template-columns:1fr}
+
+#global-form{display:flex;gap:8px;flex-wrap:wrap}#global-query{flex:1;min-width:180px}.global-result{width:100%;display:flex;gap:13px;align-items:center;text-align:left;padding:10px;margin-top:9px}.global-result img{width:44px;aspect-ratio:2/3;object-fit:contain;border-radius:5px}.global-result>span:nth-last-child(2){flex:1}.global-result b{display:block;font-size:15px}.global-result small{display:block;color:var(--muted);margin-top:5px;font-size:12px}#global-open{min-height:38px;font-size:13px;padding:7px 10px}
+
+.detail-quick-actions{justify-content:space-between;column-gap:22px;row-gap:10px}.detail-quick-actions #save-trakt{order:0;margin-right:auto}.detail-quick-actions #play-trailer{order:1}.detail-quick-actions #mark-watched{order:2;margin-left:auto;border-color:#ba865855;color:#efd0ac}.detail-quick-actions #mark-watched[aria-pressed=true]{background:#4a2b1b;border-color:#e0a16d;color:#ffe3c7}.review-list p{white-space:pre-wrap;line-height:1.75;overflow-wrap:anywhere}.review-list blockquote{padding:16px}@media(max-width:650px){.detail-quick-actions{gap:10px 20px}.detail-quick-actions button{min-height:36px}.detail-quick-actions #mark-watched{margin-left:auto}}
+
+.review-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}.review-stars{color:#f2ca73;letter-spacing:2px;white-space:nowrap;font-size:15px}.review-list blockquote>p:last-child{margin-bottom:0}
+</style></head><body>
+<header><div class="brand">Film<span>Watch</span><small id="mode"></small></div><nav aria-label="Filmové služby"><button data-section="movies" aria-pressed="true">Filmy</button><button data-section="series" aria-pressed="false">Seriály</button><button data-section="trakt" aria-pressed="false">Trakt.tv</button><button id="settings-open">Nastavení</button></nav><div class="header-status"><span id="limits"></span><button id="monitor-status" class="status-pill" aria-label="Podrobnosti monitoringu" aria-haspopup="dialog"><span id="status-text">Načítám…</span><progress id="source-progress" max="100" aria-label="Průběh kontrol"></progress></button></div><button id="refresh" aria-label="Obnovit katalog a zdroje">↻ Obnovit</button></header>
+<main><div class="toolbar"><label class="search">Hledat <input id="search" type="search" placeholder="Název filmu nebo seriálu…"></label><button id="global-open" title="Vyhledat mimo místní katalog">⌕ Hledat všude</button><select id="feed" aria-label="Výběr katalogu"><option value="">Všechny dostupné</option><option value="new">Novinky</option><option value="trending">Trendy</option></select><select id="sort" aria-label="Řazení"><option value="release-desc">Nejnovější vydání</option><option value="added-desc">Nově přidané ve FilmWatch</option><option value="rating-desc">Nejlepší hodnocení</option></select><select id="genres" aria-label="Žánr"><option value="">Všechny žánry</option></select><select id="csfd-min" aria-label="Minimální hodnocení"><option value="50" selected>Hodnocení ≥ 50 %</option><option value="60">Hodnocení ≥ 60 %</option><option value="70">Hodnocení ≥ 70 %</option><option value="80">Hodnocení ≥ 80 %</option><option value="90">Hodnocení ≥ 90 %</option></select><select id="trakt-kind" aria-label="Typ v Traktu" hidden><option value="all">Trakt · Filmy i seriály</option><option value="movie">Pouze filmy</option><option value="series">Pouze seriály</option></select><div id="trakt-toggle" hidden role="group" aria-label="Dostupnost v Traktu"><button data-availability="available" aria-pressed="true">Dostupné</button><button data-availability="waiting" aria-pressed="false">Čekající / neověřené</button></div></div>
+<div id="grid" class="grid"></div><p id="empty" class="empty" hidden>Žádný titul zatím nesplňuje tyto podmínky.</p>
+</main>
+<dialog id="monitor-details"><button class="close" id="monitor-close" aria-label="Zavřít">×</button><h2>Stav monitoringu</h2><p id="notice" role="status"></p><p id="progress-label"></p><p id="progress-counter"></p><p id="progress-detail"></p><p id="progress-timing" class="meta"></p></dialog><dialog id="global-search"><button id="global-close" class="close" aria-label="Zavřít">×</button><h2>Hledat mimo katalog</h2><form id="global-form"><input id="global-query" type="search" aria-label="Název filmu nebo seriálu" placeholder="Název filmu nebo seriálu…" minlength="2" maxlength="120" required><select id="global-kind" aria-label="Typ titulu"><option value="all">Filmy i seriály</option><option value="movie">Filmy</option><option value="series">Seriály</option></select><button class="primary" id="global-submit">Hledat</button></form><p id="global-status" class="meta" role="status">Vyber titul. Poté ověříme jeho zdroje přes Comet / RD.</p><div id="global-results"></div></dialog><dialog id="detail"></dialog><dialog id="settings"><button class="close" data-close="settings" aria-label="Zavřít">×</button><h2>Nastavení FilmWatch</h2><div id="service-state"></div><h3>Hodnocení ČSFD</h3><label>Zdroj <select id="rating-provider"><option value="auto">Automaticky · ČSFD, náhradně CZDB</option><option value="czdb">ČSFD přes veřejnou databázi CZDB</option><option value="direct">Jen přímé čtení ČSFD</option></select></label><p class="meta">CZDB je nezávislý zdroj bez API klíče, může mít starší nebo neúplná data. Tituly se ověřují podle názvu, roku, typu a ČSFD ID. IMDb ani TMDb skóre se za ČSFD nevydává.</p><button id="save-rating-provider">Uložit zdroj hodnocení</button><h3>Seznam Trakt.tv</h3><p class="meta">Vybraný seznam se použije pro synchronizaci i ukládání titulů z FilmWatch.</p><label>Seznam <select id="trakt-list-select"><option value="">Watchlist</option></select></label><div class="detail-actions"><button id="load-trakt-lists">Načíst moje seznamy</button><button id="save-trakt-list" class="primary">Použít seznam</button></div><p id="trakt-list-status" class="meta" role="status"></p><h3>Výchozí katalog novinek a trendů</h3><label>Od roku <input id="catalog-year" type="number" min="1900" max="2100" value="2025"></label><label>Původní jazyk <select id="catalog-languages"><option value="en,cs">Angličtina a čeština</option><option value="en">Jen angličtina</option><option value="cs">Jen čeština</option><option value="all">Všechny jazyky</option></select></label><label><input id="catalog-hits" type="checkbox" checked> Přidat známé francouzské a izraelské hity</label><p class="meta">Výjimka: původní jazyk fr/he, TMDb ≥ 7/10 a alespoň 1000 hlasů u filmu nebo 100 u seriálu. Indie a Japonsko jsou mimo výchozí katalog. Filtr se týká původního jazyka, nikoli dabingu. U seriálů se filtruje rok epizody a načítá se nejvýše 12 posledních odvysílaných epizod. Vlastní výběr v Traktu se těmito filtry neomezuje.</p><button id="save-catalog" class="primary">Uložit filtry katalogu</button><p>Účty, Pushover a soukromé adresy se nastavují v prostředí Stacku / .env; soukromá kopie se uchovává ve volume na OrangeMax. Připojení účtů Kodi / POV+ se automaticky nepřenáší.</p><p>Minimum 720p / 1080p / 4K a datový limit nastavuje server. Upozornění přijde jednou pro každý film či epizodu. Po nejednoznačném síťovém pokusu se automaticky neopakuje.</p><button id="demo-alert">Ukázka jednorázové notifikace</button><p id="demo-alert-status" role="status"></p></dialog><div id="toast" role="status"></div><script type="module">function sourceState(item) {
+  if (item.available) return {label: 'Dostupný zdroj', type: 'available'};
+  if (!item.sourceCheckedAt) return {label: 'Čeká na první kontrolu zdrojů', type: 'unchecked'};
+  if (item.availability === 'unknown') return {label: item.sourceCheck?.state === 'error' ? 'Kontrola zdrojů se nezdařila' : 'Kontrolu zdrojů je potřeba obnovit', type: 'unknown'};
+  return {label: 'Vyhovující zdroj nenalezen', type: 'waiting'};
+}
+
+function groupSeries(items) {
+  const result = [], shows = new Map();
+  for (const item of items) {
+    if (item.kind !== 'episode') { result.push(item); continue; }
+    const showId = String(item.tmdbId ?? item.id.split(':')[1]);
+    let show = shows.get(showId);
+    if (!show) {
+      show = {...item, id: 'series:' + showId, kind: 'series', tmdbId: showId,
+        title: item.seriesTitle || item.title.replace(/\s*·\s*S\d+E\d+$/i, ''),
+        overview: item.seriesOverview || '', year: item.seriesYear || '',
+        rating: item.seriesRating, episodes: [], inTrakt: false, available: false};
+      shows.set(showId, show); result.push(show);
+    }
+    show.episodes.push(item);
+    show.addedAt=Math.max(show.addedAt||0,item.addedAt||0)||null;
+    show.availableSince=Math.max(show.availableSince||0,item.availableSince||0)||null;
+    show.discoveryFeeds = [...new Set([...(show.discoveryFeeds || []), ...(item.discoveryFeeds || [])])];
+    show.inTrakt ||= item.inTrakt;
+    show.available ||= item.available;
+    if (item.csfd) show.csfd = item.csfd;
+  }
+  for (const show of shows.values()) {
+    show.episodes.sort((a,b) => a.season - b.season || a.episode - b.episode);
+    const available = show.episodes.filter(e => e.available);
+    show.sourceOutdated=available.length>0&&available.every(e=>e.sourceOutdated);
+    show.sourceCheck = available.sort((a,b) => (b.sourceCheck?.best?.resolution || 0) - (a.sourceCheck?.best?.resolution || 0))[0]?.sourceCheck;
+    show.sourceCheckedAt = Math.max(...show.episodes.map(e => e.sourceCheckedAt || 0)) || null;
+    show.availability = show.available ? 'available' : show.episodes.some(e => sourceState(e).type !== 'waiting') ? 'unknown' : 'waiting';
+  }
+  return result;
+}
+
+function checkSummary(items) {
+  const counts = {available: 0, unchecked: 0, unknown: 0, waiting: 0};
+  for (const item of items) counts[sourceState(item).type]++;
+  return counts;
+}
+
+function sortItems(items, mode='release-desc') {
+  const value = item => mode==='rating-desc' ? primaryRating(item).percent : mode==='csfd-desc'
+    ? (item.csfd?.state==='matched'&&Number.isFinite(item.csfd.rating)?item.csfd.rating:null)
+    : mode==='tmdb-desc' ? (Number.isFinite(item.rating)?item.rating:null)
+    : mode==='added-desc' ? (item.availableSince||item.addedAt||null) : null;
+  return [...items].sort((a,b)=>{
+    if(mode!=='release-desc'){
+      const av=value(a),bv=value(b);
+      if(av===null&&bv!==null)return 1;
+      if(bv===null&&av!==null)return -1;
+      if(av!==null&&bv!==null&&av!==bv)return bv-av;
+    }
+    return String(b.releaseDate||'').localeCompare(String(a.releaseDate||''))||String(a.title||'').localeCompare(String(b.title||''),'cs')||String(a.id).localeCompare(String(b.id));
+  });
+}
+
+function progressState(status,section='movies',kind='all') {
+  const parts=status.sourceCountsByKind||{};
+  const merge=(a={},b={})=>Object.fromEntries(['total','available','unchecked','stale','error','waiting'].map(k=>[k,(a[k]||0)+(b[k]||0)]));
+  const scoped=section==='movies'?parts.movies:section==='series'?parts.episodes:kind==='movie'?parts.traktMovies:kind==='series'?parts.traktEpisodes:parts.traktMovies&&parts.traktEpisodes?merge(parts.traktMovies,parts.traktEpisodes):null;
+  const counts=scoped||status.sourceCounts||{};
+  const total=Math.max(0,counts.total||0),remaining=Math.max(0,(counts.unchecked||0)+(counts.stale||0)),done=Math.max(0,total-remaining);
+  const unit=section==='movies'||section==='trakt'&&kind==='movie'?'filmů':section==='series'||section==='trakt'&&kind==='series'?'epizod':'položek';
+  let label=status.running?(status.monitorPhase||'Probíhá kontrola'):status.traktRunning?'Synchronizuji Trakt':remaining?'Čeká se na další dávku':'Kontroly zdrojů dokončeny';
+  if(status.monitorEnabled===false&&!status.running)label='Automatický monitoring je vypnutý';
+  else if(status.workerAlive===false&&!status.running)label='Automatický monitor právě neběží';
+  if(status.sourceServiceError)label='Hledání zdrojů je pozastavené kvůli chybě Cometu';
+  return {counts,total,remaining,done,unit,label,percent:total?Math.round(done/total*100):null,scope:scoped?'Tento přehled':'Celý monitoring'};
+}
+
+function primaryRating(item) {
+  const csfd=item.csfd;
+  if(csfd?.state==='matched'&&Number.isFinite(csfd.rating)&&csfd.rating>=0&&csfd.rating<=100){
+    const source=csfd.provider==='czdb'?'ČSFD přes CZDB':'ČSFD';
+    return {percent:Math.round(csfd.rating),label:'★ '+Math.round(csfd.rating)+' %',source:csfd.provider==='czdb'?'ČSFD / CZDB':'ČSFD',detail:source+(csfd.stale?' · starší údaj':'')};
+  }
+  if(Number.isFinite(item.rating)&&item.rating>=0&&item.rating<=10)return {percent:Math.round(item.rating*10),label:'★ '+Math.round(item.rating*10)+' %',source:'TMDb',detail:'TMDb · ČSFD se nepodařilo načíst'};
+  return {percent:null,label:'Bez údaje',source:'Hodnocení',detail:'Hodnocení se zatím nepodařilo načíst'};
+}
+
+function isCzechTitle(item){
+ return item.originalLanguage==='cs'||(item.originCountries||[]).includes('CZ');
+}
+function passesRatingMinimum(item,minimum=50){
+ const percent=primaryRating(item).percent;
+ const floor=Math.max(50,Number(minimum)||50);
+ return percent===null?floor===50:percent>=floor;
+}
+
+function trailerLinks(trailer){
+ if(trailer?.provider!=='youtube'||! /^[A-Za-z0-9_-]{11}$/.test(trailer.key||''))return null;
+ return {embed:'https://www.youtube-nocookie.com/embed/'+trailer.key+'?autoplay=1&playsinline=1&fs=1&rel=0',watch:'https://www.youtube.com/watch?v='+trailer.key};
+}
+
+function reviewDisplay(csfd){
+ const reviews=(csfd?.reviews||[]).filter(review=>review.text).slice(0,3);
+ const preview=reviews.some(review=>review.complete===false||(review.complete===undefined&&(csfd?.version||0)<3));
+ if(reviews.length)return {reviews,notice:preview?'Krátká ukázka z přehledu nebo starší cache. Plný text se zatím nepodařilo načíst.':csfd?.reviewsFromCache?'Uložené recenze · aktuální načtení zdroje se nezdařilo.':''};
+ const state=csfd?.reviewsState;
+ return {reviews,notice:state==='blocked'?'ČSFD nyní blokuje automatické načítání recenzí. Použij odkaz výše.':state==='identity'?'Stránku recenzí se nepodařilo bezpečně přiřadit k tomuto titulu.':csfd?.state==='unchecked'||!csfd?'Recenze čekají na načtení.':'Texty recenzí se nepodařilo načíst. Hodnocení může být dostupné i bez recenzí.'};
+}
+
+function reviewStars(review){
+ const stars=review?.stars;
+ return Number.isInteger(stars)&&stars>=0&&stars<=5?{text:'★'.repeat(stars)+'☆'.repeat(5-stars),label:`Hodnocení autora: ${stars} z 5 hvězdiček`}:null;
+}
+
+const $ = s => document.querySelector(s);
+const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const demo = true;
+let section = 'movies', availability = 'available', items = [], status = {};
+let openDetail=null, detailRefreshBusy=false;
+let requestVersion = 0, pendingSettingsInit=location.hash==='#settings';
+const best = {resolution:2160,hdr:['Dolby Vision','HDR10'],audio:['Dolby Atmos'],sizeBytes:20e9,averageMbps:22.22,codec:'HEVC'};
+const demoItems = [
+ {id:'movie:demo-1',kind:'movie',title:'Beyond the Last Light',originalLanguage:'en',cast:[{name:'Alex Morgan',character:'Dr. Elena'},{name:'Sam Taylor',character:'Pilot'}],trailer:{provider:'youtube',key:'M7lc1UVf-VE'},year:2026,overview:'Smyšlený film pro ukázku GUI. Vědkyně hledá původ světla na opuštěné polární stanici.',genres:['Sci-fi'],inTrakt:true,available:true,csfd:{state:'matched',rating:78},sourceCheckedAt:1793443200,discoveryFeeds:['new','trending'],sourceCheck:{best},notification:'none'},
+ {id:'movie:demo-2',kind:'movie',originalLanguage:'cs',originCountries:['CZ'],title:'Město zítřka',year:2026,overview:'Smyšlený film, stále uváděný v kinech. V ukázce už má vyhovující zdroj, proto se zobrazuje.',genres:['Drama'],discoveryFeeds:['new'],csfd:{state:'matched',rating:72},available:true,sourceCheck:{best:{...best,resolution:1080,hdr:['HDR10'],sizeBytes:12e9,averageMbps:17.78}},notification:'none'},
+ {id:'episode:demo:2:3',kind:'episode',tmdbId:'demo',seriesTitle:'Signál',seriesYear:2026,title:'Signál · S02E03',episodeTitle:'Ztracená zpráva',season:2,episode:3,overview:'Smyšlená epizoda s nalezeným zdrojem. Každá epizoda má samostatnou evidenci oznámení.',genres:['Thriller'],runtime:48,discoveryFeeds:['trending'],seriesRating:8.1,csfd:{state:'matched',rating:84},inTrakt:true,available:true,sourceCheck:{best:{...best,sizeBytes:8e9,averageMbps:22.22}},notification:'none'},
+ {id:'episode:demo:2:4',kind:'episode',tmdbId:'demo',seriesTitle:'Signál',seriesYear:2026,season:2,episode:4,title:'Signál · S02E04',episodeTitle:'Návrat',genres:['Thriller'],inTrakt:true,available:false,availability:'waiting',notification:'none'},
+ {id:'movie:demo-3',kind:'movie',title:'Cesta za obzor',year:2027,overview:'Smyšlený titul přidaný přes mobil do Traktu. Zatím se nenašel zdroj v požadované kvalitě.',genres:['Dobrodružný'],inTrakt:true,available:false,availability:'waiting',notification:'none'}
+];
+function quality(s){return s?[s.resolution===2160?'4K':s.resolution+'p',...(s.hdr||[]),...(s.audio||[]),s.sizeBytes?(s.sizeBytes/1e9).toFixed(1)+' GB':'',s.averageMbps?'≈ '+s.averageMbps+' Mbit/s':''].filter(Boolean).join(' · '):'Čeká na vyhovující release';}
+function toast(text){$('#toast').textContent=text;$('#toast').classList.add('show');clearTimeout(window.fwToast);window.fwToast=setTimeout(()=>$('#toast').classList.remove('show'),4500);}
+async function api(path,options={}){const r=await fetch(path,options);const body=await r.json();if(!r.ok)throw Error(body.error||'Server neodpověděl úspěšně.');return body;}
+async function load(){const version=++requestVersion;
+ try{
+  let data;
+  if(demo){data={items:demoItems.filter(i=>!i.hidden).filter(i=>section==='trakt'?i.inTrakt&&i.available===(availability==='available'):i.available&&i.kind===(section==='series'?'episode':'movie')),status:{minimumResolution:1080,budgetMbps:40,tmdbConfigured:false,sourcesConfigured:false,traktConfigured:false,notificationsConfigured:false}};}
+  else data=await api('/api/library?'+new URLSearchParams({section,availability}));
+  if(version!==requestVersion)return;
+  items=data.items;status=data.status;draw();
+ }catch(e){if(version!==requestVersion)return;items=[];status.fetchError='FilmWatch není dostupný. '+e.message;draw();$('#notice').textContent=status.fetchError;}
+}
+function draw(){
+ if(pendingSettingsInit){fillSettings();pendingSettingsInit=false;}
+ $('#mode').textContent=demo?'DEMO · smyšlená data a simulované účty':'';
+ document.querySelectorAll('[data-section]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.section===section)));
+ document.querySelectorAll('[data-availability]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.availability===availability)));
+ $('#trakt-toggle').hidden=section!=='trakt';$('#feed').hidden=section==='trakt';$('#trakt-kind').hidden=section!=='trakt';
+ $('#limits').textContent=(status.minimumResolution===2160?'4K':(status.minimumResolution||1080)+'p')+'+ · '+(status.budgetMbps||40)+' Mb/s';
+ const missing=[!status.tmdbConfigured?'TMDb':null,!status.sourcesConfigured?'Comet / RD':null,!status.traktConfigured?'Trakt':null,!status.notificationsConfigured?'mobilní notifikace':null].filter(Boolean);
+ const errors=[status.catalogError,status.traktError,status.traktHistoryError,status.monitorError,status.sourceServiceError].filter(Boolean);
+ $('#notice').textContent=demo?'DEMO · všechny tituly, zdroje i oznámení jsou simulované. Nic se neodesílá na mobil.':errors.length?errors.join(' '):status.running?(status.monitorPhase||'Probíhá kontrola katalogu, Traktu a zdrojů…')+'…':missing.length?'Na OrangeMax zbývá nastavit: '+missing.join(', ')+'.':'Monitoring je nakonfigurovaný. Notifikace se evidují trvale pro každý film nebo epizodu.';
+ const oldGenre=$('#genres').value;
+ $('#genres').innerHTML='<option value="">Všechny žánry</option><option value="czech">České</option>'+[...new Set(items.flatMap(i=>i.genres||[]))].sort().map(g=>`<option>${esc(g)}</option>`).join('');
+ if([...$('#genres').options].some(o=>o.value===oldGenre))$('#genres').value=oldGenre;
+ if(section==='trakt'&&status.traktSyncedListId!==undefined&&status.traktSyncedListId!==status.traktListId)$('#notice').textContent+=' Nový Trakt seznam čeká na synchronizaci.';
+ renderProgress();
+ renderCards();
+ $('#demo-alert').hidden=!demo;
+ $('#service-state').innerHTML=[['TMDb',status.tmdbConfigured],['Comet / Real-Debrid',status.sourcesConfigured],['Trakt.tv',status.traktConfigured],['Pushover',status.notificationsConfigured]].map(([name,configured])=>`<div class="service"><span>${name}</span><b>${demo?'DEMO · bez účtu':configured?'Nastaveno na serveru':'Není nastaveno'}</b></div>`).join('');
+}
+function renderCards(){const term=$('#search').value.toLocaleLowerCase('cs'),genre=$('#genres').value;
+ const minimum=Number($('#csfd-min').value),feed=section==='trakt'?'':$('#feed').value,kind=section==='trakt'?$('#trakt-kind').value:'all';
+ const visible=sortItems(groupSeries(items).filter(i=>(kind==='all'||i.kind===kind)&&(!feed||(i.discoveryFeeds||[]).includes(feed))&&passesRatingMinimum(i,minimum)&&(!term||(i.title+' '+(i.episodeTitle||'')).toLocaleLowerCase('cs').includes(term))&&(!genre||(genre==='czech'?isCzechTitle(i):(i.genres||[]).includes(genre)))),$('#sort').value);
+ $('#empty').hidden=visible.length>0;
+ $('#empty').textContent=section==='trakt'&&availability==='waiting'?'Žádná čekající položka. Neověřené a chybové kontroly se zobrazují zde.':'Zatím není uložený žádný zdroj splňující filtry.';
+ $('#grid').innerHTML=visible.map(i=>`<button class="card" data-id="${esc(i.id)}"><div class="poster">${i.poster?`<img src="${esc(i.poster)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:`<span>${esc(i.title.slice(0,1))}</span>`}<div class="badge rating-badge" title="${esc(primaryRating(i).detail)}"><b>${esc(primaryRating(i).label)}</b><small>${esc(primaryRating(i).source)}</small></div>${i.watched?'<div class="watched-mark">✓ Zhlédnuto</div>':''}${i.inTrakt?'<div class="trakt-mark">TRAKT</div>':''}</div><div class="card-body"><h2>${esc(i.title)}</h2><p class="card-year meta">${i.kind==='series'?'SERIÁL':i.kind==='episode'?'EPIZODA':'FILM'}${i.year?' · '+esc(i.year):''}</p><div class="meta">${esc(i.kind==='series'?i.episodes.length+' epizod v tomto přehledu':i.episodeTitle||(i.genres||[]).slice(0,2).join(' · '))}</div>${i.sourceOutdated?'<p class="meta">Starší kontrola · čeká na obnovení</p>':''}<p class="quality ${i.available?'':'pending'}">${i.available?esc(quality(i.sourceCheck?.best)):esc(sourceState(i).label)}</p></div></button>`).join('');
+ document.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>detail(visible.find(i=>i.id===b.dataset.id)));
+}
+function detail(i){if(i.kind==='series'){showSeries(i);return;}openDetail=i;const dialog=$('#detail');
+ dialog.classList.add('movie-detail');
+ const score=primaryRating(i);
+ const trailer=trailerLinks(i.trailer);
+ const cast=(i.cast||[]).slice(0,8);
+ const csfdUrl=/^https:\/\/www\.csfd\.cz\/film\/\d+\/$/.test(i.csfd?.url||'')?i.csfd.url:null;
+ const reviewUrl=csfdUrl?csfdUrl+'recenze/':'https://www.csfd.cz/hledat/?q='+encodeURIComponent((i.localizedTitle||i.originalTitle||i.title)+' '+(i.year||''));
+ dialog.innerHTML=`<div class="detail-header"><div class="detail-title"><p class="eyebrow">${i.kind==='episode'?'SERIÁL · EPIZODA':'FILM'}</p><h2>${esc(i.title)}</h2><p class="meta">${esc([i.year,i.runtime?i.runtime+' min':null,...(i.genres||[])].filter(Boolean).join(' · '))}</p></div><button class="close" id="detail-close" aria-label="Zavřít">×</button><div class="detail-quick-actions">${trailer?'<button id="play-trailer">▶ Trailer</button>':''}${i.kind==='movie'?`<button id="mark-watched" ${i.watched&&!i.undoToken?'disabled':''} aria-pressed="${!!i.watched}">${i.undoToken?'↶ Zrušit zhlédnutí':'✓ Zhlédnuto'}</button>`:''}<button class="primary" id="save-trakt" ${i.inTrakt?'disabled':''}>${i.inTrakt?'✓ V Traktu':'+ Uložit do Traktu'}</button></div></div>
+ <div class="detail-content"><div class="detail-hero${i.poster?'':' no-poster'}">${i.poster?`<img class="detail-cover" src="${esc(i.poster)}" alt="Plakát" referrerpolicy="no-referrer">`:''}<div class="detail-overview"><div class="detail-score"><b>${esc(score.label)}</b><span>${esc(score.source)}</span></div>${i.episodeTitle?`<h3>${esc(i.episodeTitle)}</h3>`:''}<p class="detail-copy">${esc(i.overview||'Popis není dostupný.')}</p><div class="detail-quality"><span class="eyebrow">DOSTUPNÁ KVALITA</span><p>${esc(i.available?quality(i.sourceCheck?.best):sourceState(i).label)}</p></div></div></div>
+ ${trailer?'<section id="trailer-section" class="detail-section" hidden><div class="section-heading"><h3>Trailer</h3><button id="trailer-fullscreen">⛶ Celá obrazovka</button></div><div id="trailer-player" class="trailer-player"></div><p><a class="external-link" href="'+esc(trailer.watch)+'" target="_blank" rel="noopener noreferrer">Otevřít na YouTube ↗</a></p></section>':''}
+ ${cast.length?`<section class="detail-section"><h3>Hlavní obsazení</h3><div class="cast-grid">${cast.map(person=>`<div class="cast-person">${person.photo?`<img src="${esc(person.photo)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:''}<div><b>${esc(person.name)}</b>${person.character?`<span>${esc(person.character)}</span>`:''}</div></div>`).join('')}</div></section>`:''}
+ <section class="detail-section"><div class="section-heading"><h3>ČSFD</h3><a id="detail-csfd-link" class="external-link" href="${esc(reviewUrl)}" target="_blank" rel="noopener noreferrer">${csfdUrl?'Recenze na ČSFD ↗':'Najít na ČSFD ↗'}</a></div><div id="detail-ratings">${ratings(i,true)}</div><div id="detail-reviews" class="review-list">${reviewContent(i.csfd)}</div></section>
+ <details class="detail-diagnostics"><summary>Zdroje a aktualizace</summary>${sourceDiagnostics(i)}<p>${i.sourceCheckedAt?'Poslední kontrola: '+esc(new Date(i.sourceCheckedAt*1000).toLocaleString('cs-CZ')):'Zdroj dosud nebyl zkontrolován.'}</p><p>${i.availableSince||i.addedAt?'Přidáno: '+esc(new Date((i.availableSince||i.addedAt)*1000).toLocaleString('cs-CZ')):'Datum přidání není dostupné.'}</p><p class="meta">Nález zdroje není ověření přehrání na TV.</p><div class="detail-actions"><button id="check-source">Zkontrolovat zdroje</button><button id="refresh-rating">Obnovit hodnocení</button>${i.kind==='episode'?'<button id="back-series">← Seriál a sezóny</button>':''}</div></details></div>`;
+ $('#detail-close').onclick=()=>dialog.close();
+ attachRatingRefresh(i);attachWatched(i);
+ if(trailer){
+  $('#play-trailer').onclick=()=>{
+   if(demo){toast('DEMO · přehrávání traileru je v živé službě.');return;}
+   const section=$('#trailer-section');section.hidden=false;
+   const player=$('#trailer-player');
+   if(!player.querySelector('iframe'))player.innerHTML='<iframe id="trailer-frame" src="'+esc(trailer.embed)+'" title="Trailer: '+esc(i.title)+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+   section.scrollIntoView({block:'nearest'});
+  };
+  $('#trailer-fullscreen').onclick=async()=>{
+   const player=$('#trailer-player');
+   try{if(player.requestFullscreen)await player.requestFullscreen();else toast('Použij tlačítko celé obrazovky přímo v přehrávači.');}catch{toast('Použij tlačítko celé obrazovky přímo v přehrávači.');}
+  };
+ }
+ if($('#back-series'))$('#back-series').onclick=()=>showSeries(groupSeries([i])[0]);
+ $('#check-source').onclick=async()=>{const b=$('#check-source');b.disabled=true;try{if(demo){toast('DEMO · kontrola je simulovaná.');return;}const result=await api('/api/library/'+encodeURIComponent(i.id)+'/check',{method:'POST'});await load();detail({...i,sourceCheck:result.check,sourceCheckedAt:Date.now()/1000,available:result.check.state==='found',availability:result.check.state==='found'?'available':result.check.state==='error'?'unknown':'waiting'});toast('Kontrola zdrojů dokončena.');}catch(e){toast(e.message);}finally{b.disabled=false;}};
+ $('#save-trakt').onclick=async()=>{const button=$('#save-trakt');button.disabled=true;try{if(demo){demoItems.find(x=>x.id===i.id).inTrakt=true;toast('DEMO · simulované uložení do Traktu.');}else{await api('/api/library/'+encodeURIComponent(i.id)+'/trakt',{method:'POST'});toast('Trakt potvrdil uložení.');}dialog.close();await load();}catch(e){toast(e.message);button.disabled=false;}};
+ if(!dialog.open)dialog.showModal();
+}
+document.querySelectorAll('[data-section]').forEach(b=>b.onclick=()=>{section=b.dataset.section;load();});
+document.querySelectorAll('[data-availability]').forEach(b=>b.onclick=()=>{availability=b.dataset.availability;load();});
+$('#search').oninput=renderCards;$('#genres').onchange=renderCards;$('#csfd-min').onchange=renderCards;$('#feed').onchange=renderCards;$('#trakt-kind').onchange=()=>{renderCards();renderProgress();};$('#sort').onchange=()=>{try{localStorage.setItem('filmwatch-sort',$('#sort').value);}catch{}renderCards();};
+try{let saved=localStorage.getItem('filmwatch-sort');if(saved==='csfd-desc'||saved==='tmdb-desc')saved='rating-desc';if([...$('#sort').options].some(o=>o.value===saved))$('#sort').value=saved;}catch{}
+$('#settings-open').onclick=()=>{fillSettings();$('#settings').showModal();loadTraktLists();};document.querySelector('[data-close]').onclick=()=>$('#settings').close();
+$('#refresh').onclick=async()=>{if(demo){await load();toast('DEMO · ukázka obnovena.');return;}try{await api('/api/monitor/run',{method:'POST'});toast('Kontrola spuštěna na OrangeMax.');setTimeout(load,1500);}catch(e){toast(e.message);}};
+$('#demo-alert').onclick=()=>{let seen;try{seen=JSON.parse(localStorage.getItem('filmwatch-demo-alerts')||'[]');}catch{seen=[];}const key='movie:demo-1';if(seen.includes(key)){$('#demo-alert-status').textContent='DEMO · oznámení už bylo zaznamenáno, další release jej neopakuje.';return;}try{localStorage.setItem('filmwatch-demo-alerts',JSON.stringify([...seen,key]));$('#demo-alert-status').textContent='DEMO · první vyhovující release → jedno oznámení. Nic se na mobil neodeslalo.';}catch{$('#demo-alert-status').textContent='Prohlížeč nepovoluje trvalé uložení ukázkové evidence.';}};
+if(location.hash==='#settings'){$('#settings').showModal();loadTraktLists();}
+load();if(!demo)setInterval(load,30000);
+
+function sourceDiagnostics(i){
+ const check=i.sourceCheck;
+ if(!check)return '<p class="meta">Titul může být dávno vydaný; dostupnost ve tvém Cometu zatím není potvrzena.</p>';
+ const labels={noPlaybackUrl:'bez odkazu na zdroj',camera:'CAM / TS / screener',rdCacheUnconfirmed:'bez potvrzení cache RD',missingMetadata:'chybí délka, velikost nebo rozlišení',overBudget:'nad limitem datového toku',belowResolution:'pod minimálním rozlišením'};
+ const d=check.diagnostics;
+ return (check.note?'<p class="meta">'+esc(check.note)+'</p>':'')+(d?'<p class="meta">Comet vrátil '+esc(d.returned)+' streamů; vyhovuje '+esc(d.eligible)+(d.notices?' · informačních/akčních hlášek: '+esc(d.notices):'')+'.</p><ul class="meta">'+Object.entries(d.rejected).filter(([,n])=>n>0).map(([k,n])=>'<li>'+esc(labels[k]||k)+': '+esc(n)+'</li>').join('')+'</ul>':'');
+}
+async function showSeries(show){
+ openDetail=null;
+ const dialog=$('#detail');
+ dialog.classList.remove('movie-detail');
+ dialog.innerHTML='<button class="close" id="detail-close" aria-label="Zavřít">×</button><h2>'+esc(show.title)+'</h2><p>Načítám sezóny…</p>';
+ $('#detail-close').onclick=()=>dialog.close();if(!dialog.open)dialog.showModal();
+ try{
+  const data=demo?{items:demoItems.filter(e=>!e.hidden&&e.kind==='episode'&&String(e.tmdbId)===String(show.tmdbId))}:await api('/api/series/'+encodeURIComponent(show.tmdbId));
+  if(!dialog.open)return;
+  const episodes=data.items.sort((a,b)=>a.season-b.season||a.episode-b.episode);
+  const seasons=[...new Set(episodes.map(e=>e.season))];
+  dialog.innerHTML='<button class="close" id="detail-close" aria-label="Zavřít">×</button><p class="eyebrow">SERIÁL</p><h2>'+esc(show.title)+'</h2>'+ratings(show,true)+'<div class="detail-actions"><button id="refresh-rating">Obnovit hodnocení</button><button id="mark-watched">Celý seriál zhlédnutý</button></div><p class="meta">Zhlédnutí zapíše vydané, dosud nezhlédnuté epizody do Traktu. Označený seriál nebo sezóna se trvale skryje.</p><p class="detail-copy">'+esc(show.overview||'')+'</p><label>Sezóna <select id="season-select">'+seasons.map(n=>'<option value="'+esc(n)+'">'+(n===0?'Speciály':'Sezóna '+esc(n))+'</option>').join('')+'</select></label><button id="mark-season">Označit vybranou sezónu jako zhlédnutou</button><p class="meta">Zobrazené jsou epizody načtené do monitoringu, nikoli automaticky všechny historické sezóny seriálu.</p><div id="episode-list"></div>';
+  $('#detail-close').onclick=()=>dialog.close();
+  const render=()=>{
+   const visible=episodes.filter(e=>String(e.season)===$('#season-select').value);
+   $('#episode-list').innerHTML=visible.map(e=>'<button class="episode-row" data-episode="'+esc(e.id)+'"><b>S'+String(e.season).padStart(2,'0')+'E'+String(e.episode).padStart(2,'0')+' · '+esc(e.episodeTitle||'Epizoda')+'</b><span class="quality">'+esc(e.available?quality(e.sourceCheck?.best):sourceState(e).label)+'</span></button>').join('');
+   document.querySelectorAll('[data-episode]').forEach(b=>b.onclick=()=>detail(episodes.find(e=>e.id===b.dataset.episode)));
+  };
+  $('#season-select').onchange=render;render();attachRatingRefresh({...show,episodes});attachWatched(show);
+  $('#mark-season').onclick=()=>performWatched(show,'season:'+show.tmdbId+':'+$('#season-select').value,$('#mark-season'));
+ }catch(e){dialog.innerHTML='<button class="close" id="detail-close">×</button><p>'+esc(e.message)+'</p>';$('#detail-close').onclick=()=>dialog.close();}
+}
+
+function ratings(item,linked=false){
+ const csfd=item.csfd;
+ const value=csfd?.state==='matched'&&Number.isFinite(csfd.rating)?csfd.rating:null;
+ const source=csfd?.provider==='czdb'?'ČSFD přes CZDB':'ČSFD';
+ const reasons={metadata:'chybí název nebo rok',blocked:'web blokuje automatické čtení',no_match:'titul nebyl nalezen',ambiguous:'nejednoznačný titul',identity:'profil neodpovídá titulu',network:'chyba spojení',mirror_unavailable:'CZDB je nedostupné',providers_unavailable:'zdroje jsou nedostupné'};
+ const label=value!==null?'★ '+Math.round(value)+' % · '+source+(csfd.stale?' · starší údaj':''):csfd?.state==='unrated'?source+' · hodnocení se nepodařilo načíst':csfd?.state==='unavailable'?'ČSFD · '+(reasons[csfd.code]||'nedostupné'): 'ČSFD · čeká na načtení';
+ const url=csfd?.url;
+ const link=linked&&/^https:\/\/www\.csfd\.cz\/film\/\d+\/$/.test(url||'');
+ return '<div class="ratings">'+(link?'<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>':'<span>'+esc(label)+'</span>')+(Number.isFinite(item.rating)?'<span>★ '+esc(Math.round(item.rating*10))+' % · TMDb</span>':'')+'</div>';
+}
+
+function attachRatingRefresh(item){
+ const button=$('#refresh-rating');if(!button)return;
+ button.onclick=async()=>{button.disabled=true;
+ try{if(demo){toast('DEMO · hodnocení se ze služeb nenačítá.');return;}
+ const key=item.kind==='series'?item.episodes?.[0]?.id:item.id;
+ const data=await api('/api/library/'+encodeURIComponent(key)+'/rating',{method:'POST'});
+ item.csfd=data.rating;detail(item);toast('Kontrola hodnocení dokončena.');
+ }catch(e){toast(e.message);}finally{button.disabled=false;}};
+}
+
+$('#save-catalog').onclick=async()=>{
+ const button=$('#save-catalog');button.disabled=true;
+ try{const filters={minimumYear:Number($('#catalog-year').value),languages:$('#catalog-languages').value.split(','),allowHits:$('#catalog-hits').checked};
+ if(demo){status.catalogFilters=filters;toast('DEMO · filtry se na server neukládají.');}
+ else{await api('/api/catalog/filters',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(filters)});await load();toast('Filtry uloženy. Katalog se znovu načte na serveru.');}
+ $('#settings').close();}catch(e){toast(e.message);}finally{button.disabled=false;}
+};
+
+async function loadTraktLists(){
+ const button=$('#load-trakt-lists');let loaded=false;button.disabled=true;$('#save-trakt-list').disabled=true;$('#trakt-list-status').textContent='Načítám seznamy…';
+ try{
+  const data=demo?{selected:'demo',lists:[{id:'demo',name:'Moje filmy',count:3}]}:await api('/api/trakt/lists');
+  const options=[{id:'',name:'Watchlist'},...data.lists];
+  if(!options.some(l=>l.id===data.selected))options.push({id:data.selected,name:'Aktuální seznam ('+data.selected+')'});
+  $('#trakt-list-select').innerHTML=options.map(l=>'<option value="'+esc(l.id)+'">'+esc(l.name)+(Number.isInteger(l.count)?' ('+l.count+')':'')+'</option>').join('');
+  $('#trakt-list-select').value=data.selected;loaded=true;
+  $('#trakt-list-status').textContent='Vybraný seznam: '+(options.find(l=>l.id===data.selected)?.name||'Watchlist');
+ }catch(e){$('#trakt-list-status').textContent=e.message;}finally{button.disabled=false;$('#save-trakt-list').disabled=!loaded;}
+}
+$('#load-trakt-lists').onclick=loadTraktLists;
+$('#save-trakt-list').onclick=async()=>{
+ const button=$('#save-trakt-list');button.disabled=true;
+ try{
+  const id=$('#trakt-list-select').value;
+  if(!demo){await api('/api/trakt/list',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});await load();}
+  $('#trakt-list-status').textContent=demo?'DEMO · seznam se na serveru nemění.':'Seznam uložen. Proběhne synchronizace; předchozí seznam se nebude vydávat za nový.';
+  toast(demo?'DEMO · simulovaný výběr seznamu.':'Vybraný seznam uložen.');
+ }catch(e){$('#trakt-list-status').textContent=e.message;}finally{button.disabled=false;}
+};
+
+function renderProgress(){
+ const view=progressState(status,section,$('#trakt-kind').value);
+ $('#progress-label').textContent=demo?'DEMO · simulovaný průběh':view.label;
+ $('#progress-counter').textContent=view.scope+': '+view.done+' / '+view.total+' '+view.unit+' · zbývá '+view.remaining;
+ const progress=$('#source-progress');
+ if(view.percent===null&&status.running)progress.removeAttribute('value');else progress.value=view.percent??0;
+ const current=status.running&&status.monitorPhase?.includes('Cometu')?status.sourceBatch?.currentTitle:null;
+ const batch=status.running&&status.monitorPhase?.includes('Cometu')&&status.sourceBatch?status.sourceBatch:null;
+ $('#progress-detail').textContent=(current?'Právě kontroluji: '+current+'. ':'')+(batch?'Dávka '+batch.completed+'/'+batch.total+'. ':'')+'Dostupných: '+(view.counts.available||0)+' · bez zdroje: '+(view.counts.waiting||0)+' · chyb: '+(view.counts.error||0)+(status.ratingCounts?' · hodnocení čeká: '+status.ratingCounts.pending:'');
+ const clock=value=>new Date(value*1000).toLocaleString('cs-CZ',{timeZone:'Europe/Prague',day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});
+ $('#progress-timing').textContent=[status.sourceSweepCompletedAt?'Poslední dokončená kontrola: '+clock(status.sourceSweepCompletedAt):'První úplná kontrola zatím nedokončena',status.nextScheduledAt?'Plán: 7:00 a 19:00 · příště '+clock(status.nextScheduledAt):null,status.nextSourceCheckAt&&!status.running?'Další kontrola zdrojů: '+clock(status.nextSourceCheckAt):null,status.traktRunning?'Trakt: synchronizace běží':status.traktSyncedAt?'Trakt naposledy: '+clock(status.traktSyncedAt):'Trakt zatím nesynchronizován',status.traktNextSyncAt?'Další Trakt: '+clock(status.traktNextSyncAt):null].filter(Boolean).join(' · ');
+ const errors=[status.fetchError,status.sourceServiceError,status.ratingsError,status.traktError,status.traktHistoryError,status.catalogError,status.monitorError].filter(Boolean);
+ const missing=!status.sourcesConfigured||!status.tmdbConfigured;
+ const busy=!!(status.running||status.traktRunning||status.ratingsRunning);
+ const clockShort=value=>new Date(value*1000).toLocaleTimeString('cs-CZ',{timeZone:'Europe/Prague',hour:'2-digit',minute:'2-digit'});
+ const summary=demo?'DEMO':errors.length?(status.sourceServiceError?'Comet: chyba':'Chyba služby'):missing?'Nastavit služby':status.monitorEnabled===false?'Monitoring vypnutý':status.workerAlive===false?'Monitor neběží':busy?(status.ratingsRunning&&!status.running?'Hodnocení · '+(status.ratingCounts?.pending||0):'Hledám · '+view.done+'/'+view.total):view.remaining?'Čeká '+view.remaining:status.sourceSweepCompletedAt?'Akt. '+clockShort(status.sourceSweepCompletedAt):'Připraveno';
+ $('#status-text').textContent=summary;
+ const pill=$('#monitor-status');pill.classList.toggle('busy',busy);pill.classList.toggle('has-error',errors.length>0);pill.title=[errors[0]||view.label,status.sourceSweepCompletedAt?'Poslední kontrola '+clock(status.sourceSweepCompletedAt):null,status.nextScheduledAt?'Příští '+clockShort(status.nextScheduledAt):null].filter(Boolean).join(' · ');
+ progress.hidden=!busy||!!errors.length;
+}
+async function pollProgress(){
+ try{status={...status,...await api('/api/monitor/status')};renderProgress();await refreshOpenDetail();}catch{}
+ setTimeout(pollProgress,status.running||status.traktRunning||status.ratingsRunning?5000:15000);
+}
+if(!demo)setTimeout(pollProgress,5000);
+$('#save-rating-provider').onclick=async()=>{
+ const button=$('#save-rating-provider');button.disabled=true;
+ try{const provider=$('#rating-provider').value;if(!demo)await api('/api/ratings/provider',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({provider})});toast(demo?'DEMO · bez změny serveru.':'Zdroj hodnocení uložen.');await load();}catch(e){toast(e.message);}finally{button.disabled=false;}
+};
+
+function fillSettings(){
+ const filters=status.catalogFilters||{minimumYear:2025,languages:['en','cs'],allowHits:true};
+ $('#catalog-year').value=filters.minimumYear;
+ $('#catalog-languages').value=filters.languages.includes('all')?'all':filters.languages.length===2?'en,cs':filters.languages[0];
+ $('#catalog-hits').checked=filters.allowHits;
+ $('#rating-provider').value=status.ratingProvider||'auto';
+}
+
+
+function attachWatched(item){
+ const button=$('#mark-watched');if(!button)return;
+ button.onclick=()=>performWatched(item,item.id,button);
+}
+function updateWatchedButton(item,button){
+ button.textContent=item.undoToken?'↶ Zrušit zhlédnutí':'✓ Zhlédnuto';
+ button.setAttribute('aria-pressed',String(!!item.watched));
+ button.disabled=!!item.watched&&!item.undoToken;
+ button.title=item.undoToken?'Vrátit právě provedené označení':'Označit film jako zhlédnutý v Traktu';
+}
+async function performWatched(item,key,button){
+ button.disabled=true;
+ const movieAction=item.kind==='movie'&&key===item.id;
+ const undo=movieAction&&!!item.undoToken;
+ try{
+  let result;
+  if(demo){
+   const parts=key.split(':');
+   for(const entry of demoItems){
+    if(entry.id===key||parts[0]==='series'&&String(entry.tmdbId)===parts[1]||parts[0]==='season'&&String(entry.tmdbId)===parts[1]&&String(entry.season)===parts[2])entry.hidden=!undo;
+   }
+   result={watched:!undo,undoToken:movieAction&&!undo?'demo':null};
+  }else if(undo){
+   result=await api('/api/library/'+encodeURIComponent(key)+'/watched/undo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:item.undoToken})});
+  }else result=await api('/api/library/'+encodeURIComponent(key)+'/watched',{method:'POST'});
+  if(movieAction){
+   Object.assign(item,result);item.undoToken=undo?null:result.undoToken||null;
+   if(openDetail===item&&$('#detail').open){updateWatchedButton(item,button);button.disabled=true;}
+   await load();
+   if(openDetail===item&&$('#detail').open)updateWatchedButton(item,button);
+   toast(undo?'Označení zhlédnutí zrušeno.':item.undoToken?'Zhlédnutí uloženo. Stejným tlačítkem ho můžeš vrátit.':'Film už byl v Traktu zhlédnutý.');
+  }else{
+   $('#detail').close();await load();toast(demo?'DEMO · zhlédnuté položky skryty.':'Zhlédnutí potvrzeno v Traktu. Položka je skrytá.');
+  }
+ }catch(e){toast(e.message);button.disabled=false;}
+}
+
+const detailDialog=$('#detail');
+detailDialog.addEventListener('close',()=>{openDetail=null;$('#trailer-frame')?.remove();});
+detailDialog.addEventListener('click',event=>{
+ if(event.target!==detailDialog)return;
+ const bounds=detailDialog.getBoundingClientRect();
+ if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)detailDialog.close();
+});
+
+$('#monitor-status').onclick=()=>$('#monitor-details').showModal();
+$('#monitor-close').onclick=()=>$('#monitor-details').close();
+
+
+let globalRequest=0;
+$('#global-open').onclick=()=>{
+ $('#global-search').showModal();$('#global-query').value=$('#search').value;$('#global-query').focus();
+ if($('#global-query').value.trim().length>=2)$('#global-form').requestSubmit();
+};
+$('#global-close').onclick=()=>{globalRequest++;$('#global-search').close();};
+$('#global-form').onsubmit=async event=>{
+ event.preventDefault();const version=++globalRequest;
+ $('#global-submit').disabled=true;$('#global-results').replaceChildren();$('#global-status').textContent='Vyhledávám tituly…';
+ try{
+  const data=demo?{items:[]}:await api('/api/search?'+new URLSearchParams({q:$('#global-query').value,kind:$('#global-kind').value}));
+  if(version!==globalRequest)return;
+  const results=data.items.filter(item=>passesRatingMinimum(item,50));
+  $('#global-status').textContent=demo?'DEMO · vyhledávání je dostupné v živé službě.':results.length?'Vyber titul pro ověření zdrojů.':'Žádný nezhlédnutý titul nesplňuje podmínky.';
+  $('#global-results').innerHTML=results.map((item,index)=>'<button class="global-result" data-result="'+index+'">'+(item.poster?'<img src="'+esc(item.poster)+'" alt="" loading="lazy" referrerpolicy="no-referrer">':'')+'<span><b>'+esc(item.title)+'</b><small>'+esc([item.kind==='movie'?'Film':'Seriál',item.year,primaryRating(item).label+' · '+primaryRating(item).source].filter(Boolean).join(' · '))+'</small></span><span aria-hidden="true">→</span></button>').join('');
+  document.querySelectorAll('[data-result]').forEach(button=>button.onclick=async()=>{
+   const selected=results[Number(button.dataset.result)];
+   document.querySelectorAll('[data-result]').forEach(other=>other.disabled=true);$('#global-submit').disabled=true;
+   $('#global-status').textContent='Ověřuji zdroje: '+selected.title+'…';
+   try{
+    const loaded=await api('/api/search/select',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:selected.tmdbId,kind:selected.kind})});
+    if(version!==globalRequest||!$('#global-search').open)return;
+    $('#global-search').close();
+    const item=loaded.item||groupSeries(loaded.items||[])[0];
+    if(item)detail(item);else toast('Titul nemá zobrazené epizody.');
+   }catch(error){$('#global-status').textContent=error.message;document.querySelectorAll('[data-result]').forEach(other=>other.disabled=false);}
+   finally{$('#global-submit').disabled=false;}
+  });
+ }catch(error){if(version===globalRequest)$('#global-status').textContent=error.message;}
+ finally{if(version===globalRequest)$('#global-submit').disabled=false;}
+};
+$('#global-search').addEventListener('close',()=>{globalRequest++;$('#global-submit').disabled=false;});
+
+function reviewContent(csfd){
+ const {reviews,notice}=reviewDisplay(csfd);
+ return (notice?'<p class="review-status meta">'+esc(notice)+'</p>':'')+reviews.map(review=>{const stars=reviewStars(review);return '<blockquote><div class="review-heading"><cite>'+esc(review.author||'ČSFD')+'</cite>'+(stars?'<span class="review-stars" role="img" aria-label="'+esc(stars.label)+'" title="'+esc(stars.label)+'">'+stars.text+'</span>':'')+'</div><p>'+esc(review.text)+'</p></blockquote>';}).join('');
+}
+async function refreshOpenDetail(){
+ if(demo||!openDetail||openDetail.watched||!$('#detail').open||detailRefreshBusy)return;
+ const item=openDetail;detailRefreshBusy=true;
+ try{
+  const data=await api('/api/library/item/'+encodeURIComponent(item.id));
+  if(openDetail!==item||!$('#detail').open)return;
+  item.csfd=data.item.csfd;
+  const score=primaryRating(item);
+  $('#detail .detail-score').innerHTML='<b>'+esc(score.label)+'</b><span>'+esc(score.source)+'</span>';
+  $('#detail-ratings').innerHTML=ratings(item,true);
+  $('#detail-reviews').innerHTML=reviewContent(item.csfd);
+  if(/^https:\/\/www\.csfd\.cz\/film\/\d+\/$/.test(item.csfd?.url||'')){
+   $('#detail-csfd-link').href=item.csfd.url+'recenze/';$('#detail-csfd-link').textContent='Recenze na ČSFD ↗';
+  }
+ }catch{}finally{detailRefreshBusy=false;}
+}
+</script></body></html>
