@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1877" viewBox="0 0 1600 1877">
+<rect width="1600" height="1877" fill="#0b1420"/>
+<rect x="90" y="105" width="1420" height="1667" rx="90" fill="#122434" stroke="#3989a4" stroke-width="16"/>
+<rect x="184" y="216" width="1232" height="640" rx="44" fill="#203d50"/>
+<rect x="184" y="917" width="576" height="741" rx="44" fill="#1b3447"/>
+<rect x="820" y="917" width="596" height="741" rx="44" fill="#1b3447"/>
+<path d="M800 920V1650 M190 888H1410" stroke="#4195b1" stroke-width="12" opacity=".5"/>
+<text x="800" y="550" text-anchor="middle" font-size="62" font-family="sans-serif" fill="#a6dced">DEMO ROZVRŽENÍ</text>
+<text x="800" y="627" text-anchor="middle" font-size="30" font-family="sans-serif" fill="#a6dced">Bez skutečného půdorysu domu</text>
+</svg>
